@@ -60,6 +60,12 @@ equalsButton.addEventListener("click", () => {
     let screenString = currentNumber.textContent.split(operand);
     let firstNumber = parseFloat(screenString[0]);
     let secondNumber = parseFloat(screenString[1]);
+    if (isNaN(firstNumber)){
+        firstNumber = 0
+    } else if (isNaN(secondNumber)){
+        secondNumber = 0;
+    };
+
     if (operand == "+"){
         let sum = addition(firstNumber, secondNumber);
     }
@@ -71,7 +77,7 @@ equalsButton.addEventListener("click", () => {
     }
     else if (operand == "/") {
         let quotient = division(firstNumber, secondNumber);
-    }
+    };
     
     if (!currentNumber.textContent.includes(".")){
         allowDecimal = true;
