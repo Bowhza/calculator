@@ -1,6 +1,7 @@
 let previousNumber = document.getElementById("previous-number");
 let currentNumber = document.getElementById("current-number");
 let allowDecimal = true;
+let allowPrevious = true;
 
 const numbers = Array.from(document.querySelector(".button-container").querySelectorAll(".button"));
 numbers.forEach(element => {
@@ -12,15 +13,16 @@ numbers.forEach(element => {
     });
 });
 
-const operands = Array.from(document.querySelector(".button-container").querySelectorAll(".operand"));
-const operandList = ["*", "/", "+", "-"]
+const operations = Array.from(document.querySelector(".button-container").querySelectorAll(".operation"));
+const operationList = ["*", "/", "+", "-"]
 
-operands.forEach(element => {
+operations.forEach(element => {
     element.addEventListener("click", () => {
-        if(!operandList.some(x => currentNumber.textContent.includes(x))){
+        if(!operationList.some(x => currentNumber.textContent.includes(x))){
             currentNumber.textContent += ` ${element.textContent} `;
-            operand = element.textContent;
+            operation = element.textContent;
             allowDecimal = true;
+            allowPrevious = true;
         };
     });
 });
@@ -37,10 +39,21 @@ deleteButton.addEventListener("click", () => {
 
 const clearButton = document.getElementById("clear-button");
 clearButton.addEventListener("click", () => {
-    currentNumber.innerText = "0";
-    previousNumber.innerText = "";
+    currentNumber.textContent = "0";
+    previousNumber.textContent = "";
     allowDecimal = true;
 });
+
+const previousButton = document.getElementById("previous");
+previousButton.addEventListener("click", () => {
+    if(allowPrevious) {
+        if(currentNumber.textContent == "0"){
+            currentNumber.textContent = "";
+        }
+        currentNumber.textContent += previousNumber.textContent;
+        allowPrevious = false
+    };
+})
 
 const decimalButton = document.getElementById("decimal-button");
 
@@ -57,7 +70,7 @@ decimalButton.addEventListener("click", () => {
 
 let equalsButton = document.getElementById("equals");
 equalsButton.addEventListener("click", () => {
-    let screenString = currentNumber.textContent.split(operand);
+    let screenString = currentNumber.textContent.split(operation);
     let firstNumber = parseFloat(screenString[0]);
     let secondNumber = parseFloat(screenString[1]);
     if (isNaN(firstNumber)){
@@ -66,44 +79,49 @@ equalsButton.addEventListener("click", () => {
         secondNumber = 0;
     };
 
-    if (operand == "+"){
+    if(typeof(operation) == undefined) {
+        currentNumber.textContent && previousNumber.textContent == "0";
+    };
+
+    if (operation == "+"){
         let sum = addition(firstNumber, secondNumber);
     }
-    else if (operand == "-"){
+    else if (operation == "-"){
         let difference = subtraction(firstNumber, secondNumber);
     }
-    else if (operand == "*"){
+    else if (operation == "*"){
         let product = multiplication(firstNumber, secondNumber);
     }
-    else if (operand == "/") {
+    else if (operation == "/") {
         let quotient = division(firstNumber, secondNumber);
     };
     
     if (!currentNumber.textContent.includes(".")){
         allowDecimal = true;
     };
+    allowPrevious = true;
 });
 
 const addition = (a, b) => {
     sum = a + b;
     previousNumber.textContent = sum;
-    currentNumber.textContent = sum;
+    currentNumber.textContent = 0;
 };
 
 const subtraction = (a, b) => {
     difference = a - b;
     previousNumber.textContent = difference;
-    currentNumber.textContent = difference;
+    currentNumber.textContent = 0;
 };
 
 const multiplication = (a, b) => {
     product = a * b;
     previousNumber.textContent = product;
-    currentNumber.textContent = product;
+    currentNumber.textContent = 0;
 };
 
 const division = (a, b) => {
     quotient = (a / b);
     previousNumber.textContent = quotient;
-    currentNumber.textContent = quotient;
+    currentNumber.textContent = 0;
 };

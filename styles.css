@@ -71,7 +71,7 @@ button:hover {
     font-size: 2rem;
 }
 
-#equals, #delete {
+#equals {
     grid-column: span 2;
 }
 
