@@ -81,7 +81,7 @@ equalsButton.addEventListener("click", () => {
     
     if (!currentNumber.textContent.includes(".")){
         allowDecimal = true;
-    }
+    };
 });
 
 const addition = (a, b) => {
