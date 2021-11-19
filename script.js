@@ -33,7 +33,7 @@ deleteButton.addEventListener("click", () => {
     if (newString == ""){
         newString = "0";
         allowDecimal = true; 
-    };
+    }
     currentNumber.textContent = newString;
 });
 
@@ -50,13 +50,15 @@ previousButton.addEventListener("click", () => {
         if(currentNumber.textContent == "0"){
             currentNumber.textContent = "";
         }
+        if(previousNumber.textContent.includes(".")) {
+            allowDecimal = false;
+        };
         currentNumber.textContent += previousNumber.textContent;
         allowPrevious = false
     };
 })
 
 const decimalButton = document.getElementById("decimal-button");
-
 decimalButton.addEventListener("click", () => {
     if (!currentNumber.textContent.includes(".")){
         allowDecimal = true;
